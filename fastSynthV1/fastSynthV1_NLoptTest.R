@@ -1,3 +1,35 @@
+# Test on the new function for synthetical control.
+rm(list = ls())
+# Prepare the library
+library(data.table)
+library(nloptr)
+library(kernlab)
+library(microbenchmark)
+library(Synth)
+
+source('fastSynthV1_NLopt.r')
+
+data <- fread('test.csv')
+J   = 30
+t0  = 30
+
+s.data <- dataprep(foo = data,
+                   predictors = c("x1", "x2"),
+                   predictors.op = "mean",
+                   time.predictors.prior = 1:t0,
+                   dependent = "ycol",
+                   unit.variable = "id",
+                   time.variable = "time",
+                   special.predictors = list(list("ycol", t0, "mean")),
+                   treatment.identifier = 1,
+                   controls.identifier = c(2:(J+1)),
+                   time.optimize.ssr = 1:t0,
+                   time.plot = 1:T)
+
+# --------------------------------------------------------------------------------------------------------------#
+# 1. Set up the parameters, and run the codes within the function.
+# --------------------------------------------------------------------------------------------------------------#
+{
 # Benchmark testing.
 quadopt = "ipop"
 Margin.ipop = 0.0005
@@ -65,37 +97,16 @@ rgV.optim.2 <- optimx::optimx(par=SV1, fn=fn.V,
                               sigf.ipop = Sigf.ipop,
                               bound.ipop = Bound.ipop),
 times = 1)
+}
 
-
-
+# --------------------------------------------------------------------------------------------------------------#
+# 2. Compare the new function with the benchmark function: synth.
+# --------------------------------------------------------------------------------------------------------------#
 # Compare the computation time.
 microbenchmark(
 scm <- synth(data.prep.obj = s.data, optimxmethod = "BFGS", quadopt = "ipop", Margin.ipop = 0.001), # default is 0.0005.
 scm2 <- fastSynthV1(data.prep.obj = s.data, optimxmethod = "NLOPT_LN_NELDERMEAD", quadopt = "ipop", Margin.ipop = 0.001),
 times = 1)
 
+# Run the new function alone.
 scm2 <- fastSynthV1(data.prep.obj = s.data, optimxmethod = "NLOPT_LN_NELDERMEAD", quadopt = "ipop", Margin.ipop = 0.001)
-
-
-
-# Parameter set-up for profiling
-custom.v = NULL
-optimxmethod = c("NLOPT_LN_NELDERMEAD")
-genoud = FALSE
-quadopt = "ipop"
-Margin.ipop = 0.0005
-Sigf.ipop = 5
-Bound.ipop = 10
-verbose = FALSE
-data.prep.obj <- dataprep(foo = data,
-                          predictors = c("x1", "x2"),
-                          predictors.op = "mean",
-                          time.predictors.prior = 1:t0,
-                          dependent = "ycol",
-                          unit.variable = "id",
-                          time.variable = "time",
-                          special.predictors = list(list("ycol", t0, "mean")),
-                          treatment.identifier = 1,
-                          controls.identifier = c(2:(J+1)),
-                          time.optimize.ssr = 1:t0,
-                          time.plot = 1:T)
