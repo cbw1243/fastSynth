@@ -1,4 +1,7 @@
 # Test on the new function for synthetical control.
+# --------------------------------------------------------------------------------------------------------------#
+# Part 1. Prepare for running the script.
+# --------------------------------------------------------------------------------------------------------------#
 rm(list = ls())
 # Prepare the library
 library(data.table)
@@ -27,7 +30,7 @@ s.data <- dataprep(foo = data,
                    time.plot = 1:T)
 
 # --------------------------------------------------------------------------------------------------------------#
-# 1. Set up the parameters, and run the codes within the function.
+# Part 2. Set up the parameters, and run the codes within the function.
 # --------------------------------------------------------------------------------------------------------------#
 {
 # Benchmark testing.
@@ -100,7 +103,7 @@ times = 1)
 }
 
 # --------------------------------------------------------------------------------------------------------------#
-# 2. Compare the new function with the benchmark function: synth.
+# Part 3. Compare the new function with the benchmark function: synth.
 # --------------------------------------------------------------------------------------------------------------#
 # Compare the computation time.
 microbenchmark(
