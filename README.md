@@ -1,7 +1,7 @@
 # fastSynth
 
 # Description  
-This code provides fast computation of the synthetical control method. Authors: Bowen Chen (PhD candidate in Agricultural Economics at Kansas State University; Email: bwchen@ksu.edu), Huayan Geng (PhD candidate in Economics, SUNY Binghamton University). Feel free to contact us if you encounter any question using our functions. 
+This code provides fast computation of the synthetical control method. Authors: Bowen Chen (PhD candidate in Agricultural Economics at Kansas State University; Email: bwchen@ksu.edu), Huayan Geng (PhD candidate in Economics, SUNY Binghamton University; Email: hgeng1@binghamton.edu). Feel free to contact us if you encounter any question using our functions. 
 
 
 ### Version 1:
